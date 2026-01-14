@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miniso Jayanagar | Official Store</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #E21B24; /* Miniso Red */
+            --secondary: #2ED573;
+            --dark: #2F3542;
+            --light: #F8F9FA;
+            --white: #ffffff;
+            --glass: rgba(255, 255, 255, 0.95);
+            --shadow: 0 8px 30px rgba(0,0,0,0.08);
+            --radius: 12px;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body { 
+            background-color: var(--white); 
+            color: var(--dark); 
+            overflow-x: hidden; 
+        }
+
+        /* --- HEADER --- */
+        header {
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .logo { 
+            font-size: 1.8rem; font-weight: 800; color: var(--primary); 
+            display: flex; align-items: center; gap: 5px; letter-spacing: -1px;
+            text-transform: uppercase;
+        }
+        .logo span { color: var(--dark); font-weight: 500; font-size: 1rem; padding-left: 8px; border-left: 2px solid #eee; text-transform: capitalize; }
+        
+        .contact-group { display: flex; gap: 15px; align-items: center; }
+        .social-btn {
+            width: 35px; height: 35px; border-radius: 50%; background: #fff;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--dark); border: 1px solid #eee; transition: 0.3s;
+            text-decoration: none; font-size: 1.1rem;
+        }
+        .social-btn:hover { background: var(--primary); color: white; border-color: var(--primary); transform: translateY(-3px); }
+
+        /* --- HERO --- */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 60vh;
+            min-height: 400px;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        .hero-bg {
+            position: absolute; inset: 0;
+            background: url('store_entrance.jpg.jpeg') center/cover no-repeat;
+            opacity: 0.8;
+            transition: transform 10s ease;
+        }
+        .hero-section:hover .hero-bg { transform: scale(1.05); }
+        
+        .hero-content {
+            position: relative; z-index: 2; height: 100%;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center;
+            padding: 40px; color: white;
+            background: rgba(0,0,0,0.3);
+        }
+        
+        .hero-title { 
+            font-size: 3.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px; 
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        
+        .hero-btn {
+            padding: 12px 35px; background: var(--primary); color: white;
+            text-decoration: none; font-weight: 600; font-size: 1rem;
+            border-radius: 4px; transition: 0.3s; text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .hero-btn:hover { background: white; color: var(--primary); }
+
+        /* --- FILTERS --- */
+        .filter-nav {
+            position: sticky; top: 75px; z-index: 900;
+            padding: 20px 5%; background: var(--white);
+            border-bottom: 1px solid #eee;
+        }
+        .filter-scroll {
+            display: flex; gap: 15px; overflow-x: auto; padding-bottom: 5px;
+            scrollbar-width: none;
+        }
+        .filter-scroll::-webkit-scrollbar { display: none; }
+        
+        .tab-btn {
+            padding: 8px 0; border: none; border-bottom: 2px solid transparent;
+            background: transparent; color: #888; font-weight: 600; font-size: 0.95rem;
+            cursor: pointer; transition: all 0.3s ease; white-space: nowrap;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .tab-btn:hover { color: var(--primary); }
+        .tab-btn.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
+
+        /* --- PRODUCT GRID --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 30px;
+            padding: 40px 5%;
+        }
+        
+        .product-card {
+            background: white; border-radius: 8px;
+            overflow: hidden; cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative; border: 1px solid #eee;
+            opacity: 0; /* Animation start */
+        }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-color: transparent; }
+        
+        .p-img-box {
+            width: 100%; height: 240px; position: relative;
+            background: #fff; overflow: hidden; display: flex; align-items: center; justify-content: center;
+        }
+        
+        .p-img-box img {
+            max-width: 90%; max-height: 90%; object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+        .product-card:hover .p-img-box img { transform: scale(1.05); }
+        
+        .p-details { padding: 15px; text-align: left; }
+        .p-cat { 
+            font-size: 0.7rem; color: #999; font-weight: 700; 
+            text-transform: uppercase; margin-bottom: 5px;
+        }
+        .p-name { 
+            font-size: 0.95rem; font-weight: 500; color: var(--dark); 
+            margin-bottom: 10px; line-height: 1.4; height: 2.8em; overflow: hidden;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+        }
+        .p-price { font-size: 1.1rem; color: var(--primary); font-weight: 700; }
+        
+        /* --- REVIEWS --- */
+        .reviews-section {
+            background: #f9f9f9; padding: 60px 5%; margin-top: 40px; text-align: center;
+        }
+        .section-title { font-size: 2rem; font-weight: 700; margin-bottom: 40px; color: var(--dark); text-transform: uppercase; letter-spacing: 1px; }
+        
+        .review-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;
+        }
+        .review-card {
+            background: white; padding: 30px; border-radius: 8px;
+            text-align: center; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+        .stars { color: #FFC107; margin-bottom: 15px; font-size: 0.9rem; }
+        .r-text { font-size: 0.95rem; color: #666; line-height: 1.6; margin-bottom: 15px; font-style: italic; }
+        .r-user { font-weight: 700; color: var(--dark); font-size: 0.9rem; }
+
+        /* --- FOOTER --- */
+        .footer { 
+            background: #222; color: white; padding: 60px 5% 20px; 
+        }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 50px; margin-bottom: 50px; }
+        
+        .f-col h3 { font-size: 1.1rem; margin-bottom: 25px; font-weight: 600; color: white; text-transform: uppercase; letter-spacing: 1px; }
+        .contact-info { display: flex; flex-direction: column; gap: 15px; }
+        .c-item { display: flex; gap: 15px; color: #ccc; font-size: 0.9rem; line-height: 1.6; }
+        .c-item i { color: var(--primary); font-size: 1rem; margin-top: 4px; }
+        .c-item a { color: #ccc; text-decoration: none; transition: 0.2s; }
+        .c-item a:hover { color: white; }
+        
+        .map-container {
+            width: 100%; height: 250px; border-radius: 8px; overflow: hidden;
+            background: #333; border: 1px solid #444;
+        }
+        
+        .copyright { border-top: 1px solid #333; padding-top: 20px; text-align: center; color: #666; font-size: 0.8rem; }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- MOBILE --- */
+        @media (max-width: 768px) {
+            .hero-section { height: 400px; width: 100%; margin: 0; border-radius: 0; }
+            .hero-title { font-size: 2rem; }
+            .grid-container { grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px 3%; }
+            .p-img-box { height: 160px; padding: 10px; }
+            .p-name { font-size: 0.8rem; }
+            .p-price { font-size: 0.95rem; }
+            .footer { padding: 40px 5% 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        MINISO <span>Jayanagar</span>
+    </div>
+    <div class="contact-group">
+        <a href="https://www.instagram.com/miniso__jayanagar?igsh=MXBrN2N6cWp0dnp6Mg==" target="_blank" class="social-btn"><i class="fab fa-instagram"></i></a>
+        <a href="tel:7259352730" class="social-btn"><i class="fas fa-phone"></i></a>
+    </div>
+</header>
+
+<div class="hero-section">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+        <h1 class="hero-title">Experience <br>Japanese Design</h1>
+        <a href="#grid" class="hero-btn">Explore Collection</a>
+    </div>
+</div>
+
+<div class="filter-nav">
+    <div class="filter-scroll" id="filters">
+        <button class="tab-btn active" onclick="filter('All', event)">All Collection</button>
+    </div>
+</div>
+
+<main class="grid-container" id="grid">
+    </main>
+
+<div class="reviews-section">
+    <h2 class="section-title">Customer Reviews</h2>
+    <div class="review-grid">
+        <div class="review-card">
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <p class="r-text">"The store is amazing! Huge collection of plushies and beauty products. Staff is very helpful."</p>
+            <div class="r-user">- Ananya R.</div>
+        </div>
+        <div class="review-card">
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <p class="r-text">"Finally a Miniso in Jayanagar! The layout is beautiful and finding products is so easy."</p>
+            <div class="r-user">- Karthik S.</div>
+        </div>
+        <div class="review-card">
+            <div class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+            <p class="r-text">"Affordable prices and premium quality. My go-to place for gifts."</p>
+            <div class="r-user">- Meera P.</div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="footer-grid">
+        <div class="f-col">
+            <h3>Store Information</h3>
+            <div class="contact-info">
+                <div class="c-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>123, 11th Main Rd, 4th Block,<br>Jayanagar, Bengaluru, Karnataka 560011</span>
+                </div>
+                <div class="c-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <a href="tel:7259352730">72593 52730</a>
+                </div>
+                <div class="c-item">
+                    <i class="fas fa-envelope"></i>
+                    <a href="mailto:minisojayanagar@gmail.com">minisojayanagar@gmail.com</a>
+                </div>
+                <div class="c-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Mon - Sun: 10:00 AM - 9:30 PM</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="f-col">
+            <h3>Find Us On Map</h3>
+            <div class="map-container">
+                <iframe
+    src="https://www.google.com/maps?q=MINISO%20Jayanagar%20Bengaluru&output=embed"
+    width="100%"
+    height="100%"
+    style="border:0;"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade">
+</iframe>
+            </div>
+            <a href="https://www.google.com/maps/search/?api=1&query=MINISO+Jayanagar+Bengaluru"
+   target="_blank"
+   style="
+      display:inline-block;
+      margin-top:15px;
+      padding:10px 18px;
+      border:1px solid #E21B24;
+      color:#E21B24;
+      font-weight:600;
+      border-radius:4px;
+      text-decoration:none;
+      transition:0.3s;
+   "
+   onmouseover="this.style.background='#E21B24';this.style.color='white'"
+   onmouseout="this.style.background='transparent';this.style.color='#E21B24'">
+   📍 Get Directions
+</a>
+        </div>
+    </div>
+    
+    <div class="copyright">
+        © 2024 Miniso Jayanagar Franchise. All Rights Reserved.
+    </div>
+</div>
+
+<script>
+    // --- 1. PRODUCT DATA (Filtered & Cleaned) ---
+    const products = [{"name": "Deep Cleansing Nose Strips(Bamboo Charcoal)", "cat": "Skincare", "price": "170.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/4897116386496-1-3D6FB3DA27/4897116386496-1.jpg"}, {"name": "Barbie Collection Studded Tumbler with Straw (700mL)", "cat": "Life Department", "price": "500.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symLink/2023042173942015-1-9806779557/2023042173942015-1.jpg"}, {"name": "Miniso Hand Sanitizer Gel 29ML (Pear)", "cat": "Personal Care &  Cleaning", "price": "100.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1750403725360/4894916015694-1.jpg"}, {"name": "Hoodie Penguin Plush Toy 32CM(Pig)", "cat": "Plush Toy", "price": "560.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/4894916000720-1.jpg"}, {"name": "Sitting Elephant Plush Toy 30CM(Grey)", "cat": "Plush Toy", "price": "460.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/4897116381439-1.jpg"}, {"name": "Miniso Wonderland Eau De Toilette 30ml(Dark Musk)", "cat": "Scented Products", "price": "400.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/30ML%E5%A5%87%E8%BF%B9%E4%B9%90%E5%9B%AD16466303516560.png"}, {"name": "Solid Color Steel Tumbler with Straw (1600mL)(Pink)", "cat": "Life Department", "price": "800.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symLink/2023060546290538-1-3315912859/2023060546290538-1.jpg"}, {"name": "Barbie Collection Double Wall Plastic Tumbler with Straw (600mL)", "cat": "Life Department", "price": "500.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6942083555586-1-E951A5D9CD/6942083555586-1.jpg"}, {"name": "Cartoon Eye Mask (Animals)", "cat": "Apparel & Accessories", "price": "170.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6958085573213-1.jpg"}, {"name": "Foldable Travel Organizer Bag 4 Pack (Black)", "cat": "Life Department", "price": "450.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6941501518103-1.jpg"}, {"name": "Natural Beauty Facial Mask(Rice)", "cat": "Skincare", "price": "60.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/4260661756913-1-1B5A93B227/4260661756913-1.jpg"}, {"name": "Gray Series Storage Box with Lid (L)", "cat": "Life Department", "price": "500.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6941856995116-1-136F487C0E/6941856995116-1.jpg"}, {"name": "Cute Rabbit Ear Box and Flatware Set\uff083pcs\uff09", "cat": "Life Department", "price": "230.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/4585901213514-1-5B25CEFEF0/4585901213514-1.jpg"}, {"name": "Dreamland Secret Eau De Toilette(Magic Rosy Clouds)", "cat": "Scented Products", "price": "200.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/15ml+%E5%A5%B3%E6%80%A715905940492332.png"}, {"name": "Miniso Sparkle Collection Shimmer Body Mist(Nebula)", "cat": "Scented Products", "price": "350.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1757239687093/4894916018855-1.jpg"}, {"name": "Miniso Wonderland Eau De Toilette 30ml(Lychee Rose)", "cat": "Scented Products", "price": "400.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/30ML%E5%A5%87%E8%BF%B9%E4%B9%90%E5%9B%AD16466303516561.png"}, {"name": "Barbie Collection Hourglass Jelly Bag", "cat": "Life Department", "price": "800.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6942269597775-1-3628BE0F25/6942269597775-1.jpg"}, {"name": "Miniso Moisturizing Tinted Lip Balm 4.5G(Cherry)", "cat": "Skincare", "price": "120.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/%E5%8D%B0%E5%BA%A6%E6%B6%A6%E5%94%87%E8%86%8F+%E7%8E%AB%E7%91%B0%26amp%3B%E6%A8%B1%E6%A1%8316853516323140.png"}, {"name": "100ML Dazzle EDT Eau the Parfum(Stars)", "cat": "Scented Products", "price": "560.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/4260585875721-1.jpg"}, {"name": "Sanrio characters Portable Metal Wireless Speaker  Model: A127(Kuromi)", "cat": "Electronic Devices", "price": "1299.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6942269505831-1-1ECD5EC0C2/6942269505831-1.jpg"}, {"name": "Penguin Plush Toy 28cm(Light Blue)", "cat": "Plush Toy", "price": "420.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/%E4%BC%81%E9%B9%8516033302944750.png"}, {"name": "Travel Storage Bag\uff08Medium\uff09", "cat": "Life Department", "price": "230.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2008894910106-1.jpg"}, {"name": "Miniso Couple Penguin Plush Toy 25CM(Boy)", "cat": "Plush Toy", "price": "460.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/%E5%8D%B0%E5%BA%A6%E6%83%85%E4%BE%A3%E7%B3%BB%E5%88%97%E4%BC%81%E9%B9%85%E5%85%AC%E4%BB%9425CM%28%E7%94%B7%E7%94%9F%2917153956723082.png"}, {"name": "Dreamland Secret Eau De Toilette(Brilliant Stars)", "cat": "Scented Products", "price": "200.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/15ml+%E5%A5%B3%E6%80%A715905940492332.png"}, {"name": "Embroidered Eye Mask", "cat": "Apparel & Accessories", "price": "170.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6941501526702-1.jpg"}, {"name": "MINISO Monster Paradise Collection Soft & Comfy Facial Tissues (3 Pack)", "cat": "Personal Care &  Cleaning", "price": "210.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6936735358403-1.jpg"}, {"name": "Miniso Infinite Secrets EDP 75ml(Romantic Verse)", "cat": "Scented Products", "price": "590.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1726812658224/4894916013690-1.jpg"}, {"name": "We Bare Bears Collection 4.0 Ceramic Cup (255mL)", "cat": "Life Department", "price": "270.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6941856937253-1-A7D742DE23/6941856937253-1.jpg"}, {"name": "We Bare Bears-Small Stitchbound Book(4pcs)", "cat": "Stationery & Gift", "price": "70.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6941447504703-1.jpg"}, {"name": "MINI FAMILY Rice Glowing Face Wash 100G", "cat": "Skincare", "price": "200.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1737425034524/4894916015014-1.jpg"}, {"name": "Miniso Gifford Bear Flower Fairy Series Plush Toy 25CM (Beige)", "cat": "Plush Toy", "price": "560.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1737422992477/4894916009822-1.jpg"}, {"name": "Mini Portable Standing Vented Brush", "cat": "Makeup Tools", "price": "150.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2022062745689213-1.jpg"}, {"name": "Toothbrush Head Covers (9 pcs)", "cat": "Personal Care &  Cleaning", "price": "190.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6930387578608-1.jpg"}, {"name": "Barbie Collection Chanel Style Jelly Bag", "cat": "Life Department", "price": "800.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6942269597782-1-3811E11763/6942269597782-1.jpg"}, {"name": "Gray Series Storage Box with Lid (S)", "cat": "Life Department", "price": "290.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6941856995123-1-13CD8E8A0E/6941856995123-1.jpg"}, {"name": "Solid Color Memory Foam U-Shaped Pillow (Navy)", "cat": "Life Department", "price": "450.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1730699416167/6942083508179-1.jpg"}, {"name": "Miniso Dopamine Mood Sunscreen Lip Balm 4.5G(SPF30, PA+++,Pomegranate)", "cat": "Skincare", "price": "120.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/segmentPic/1723793428264/4894916009471-1.jpg"}, {"name": "Miniso Round Cotton Pads 100 Sheets(White)", "cat": "Personal Care &  Cleaning", "price": "130.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1755834581065/4894916017728-1.jpg"}, {"name": "Miniso Disney Fluffy Festival Stitch Plush Toy 32CM", "cat": "Plush Toy", "price": "1030.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/Fluffy+Stitch.jpg17471299902273.Fluffy+Stitch.jpg"}, {"name": "Miniso Disney Peekaboo Stitch Plush Toy 30CM", "cat": "Plush Toy", "price": "1030.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/Peekaboo+Stitch.jpg17471299902272.Peekaboo+Stitch.jpg"}, {"name": "Mini Family Toothbrush Case", "cat": "Life Department", "price": "170.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/\u7259\u5177\u76d2\u6df72021122090518476-1.jpg"}, {"name": "Miniso Hand Sanitizer Gel 29ML (Strawberry)", "cat": "Personal Care &  Cleaning", "price": "100.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1750403724995/4894916015663-1.jpg"}, {"name": "Dreamland Secret Eau De Toilette(Paradise Moonlight)", "cat": "Scented Products", "price": "200.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/15ml+%E5%A5%B3%E6%80%A715905940492332.png"}, {"name": "Barbie Collection Fine Fiber Extra Large Bath Towel", "cat": "Life Department", "price": "750.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6942083585316-1-6626D142ED/6942083585316-1.jpg"}, {"name": "Miniso Infinite Secrets EDP 75ml(Blossom Tale)", "cat": "Scented Products", "price": "590.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1726812658819/4894916013706-1.jpg"}, {"name": "Forest Family 2.0 Skin-Friendly Pocket Tissues Packs (4 Packs)", "cat": "Personal Care &  Cleaning", "price": "70.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6942083577533-1-229671D746/6942083577533-1.jpg"}, {"name": "Garden of Season Candle Set", "cat": "Scented Products", "price": "320.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/4897116381538-516412620433573.jpg"}, {"name": "Miniso It's Hand Cream(Lavender)", "cat": "Skincare", "price": "200.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1756886315296/4894916015212-1.jpg"}, {"name": "AA Battery Operated Handheld Fan  Model: ZB073", "cat": "Electronic Devices", "price": "350.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2022072709271483-1.jpg"}, {"name": "G-007 Sunglasses", "cat": "Apparel & Accessories", "price": "400.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symLink/2023030248521097-1-8087361312/2023030248521097-1.jpg"}, {"name": "Storage Shopping Basket", "cat": "Life Department", "price": "310.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6941055174787-1.jpg"}, {"name": "Wheat Straw Double-layer Bento Box 750ml", "cat": "Life Department", "price": "N/A", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6941447581995-1.jpg"}, {"name": "Miniso Ode to Blossoms EDT 50ML(Pearl Veil)", "cat": "Scented Products", "price": "460.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1757239685882/4894916011900-1.jpg"}, {"name": "Bunny Plush Toy 25CM(Purple)", "cat": "Plush Toy", "price": "460.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/4894916008603-1-C636FC0E6C/4894916008603-1.jpg"}, {"name": "Dual Color Memory Foam U Shaped Neck Pillow(Blue)", "cat": "Life Department", "price": "550.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6941856938564-1.jpg"}, {"name": "Dual Color Memory Foam U Shaped Neck Pillow(Gray)", "cat": "Life Department", "price": "550.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6941856938557-1.jpg"}, {"name": "Sanrio Characters Portable Water Bottle (535mL)(Purple)", "cat": "Life Department", "price": "550.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6931798812152-1-089CA6D57B/6931798812152-1.jpg"}, {"name": "Hair  Brush", "cat": "Makeup Tools", "price": "210.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2022062793718650-1.jpg"}, {"name": "MINISO Monster Paradise Collection Scented Facial Tissues (18 Packs)", "cat": "Personal Care &  Cleaning", "price": "210.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6936735358403-1.jpg"}, {"name": "Premium Natural Cotton Swabs with Paper Sticks (Round Double Head, 420 pcs)", "cat": "Personal Care &  Cleaning", "price": "170.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6931798872217-1-DD83AFD945/6931798872217-1.jpg"}, {"name": "Bamboo Stick Cotton Swabs 500 Count (Pointed Tips & Spiral Tips)", "cat": "Personal Care &  Cleaning", "price": "170.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6931798862232-1.jpg"}, {"name": "Coloradio Cleaning Toothbrushes (6 pcs)", "cat": "Personal Care &  Cleaning", "price": "200.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6931798889024-1.jpg"}, {"name": "Miniso Dopamine Mood Body Mist(Warm)", "cat": "Scented Products", "price": "260.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1726802824289/4894916013478-1.jpg"}, {"name": "Color Blocking Shoulder Bag(Black)", "cat": "Life Department", "price": "650.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6941856946521-1.jpg"}, {"name": "Mini Portable Standing Paddle Brush", "cat": "Makeup Tools", "price": "150.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2022062720453678-1.jpg"}, {"name": "Cinnamoroll Assorted Cotton Swabs (240 Count)", "cat": "Personal Care &  Cleaning", "price": "170.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6931798872415-1.jpg"}, {"name": "Knights Tale Eau De Toilette(White)", "cat": "Scented Products", "price": "500.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/segmentPic/1722929379819/4894916013416-1.jpg"}, {"name": "Purple Series Shopping Basket", "cat": "Life Department", "price": "310.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2023010419750263-1.jpg"}, {"name": "Multi-color Electric Toothbrush Kit(Pink)", "cat": "Personal Care &  Cleaning", "price": "N/A", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6931798821963-1.jpg"}, {"name": "Miniso Fresh Nail Polish Remover(Lavender)", "cat": "Cosmetics", "price": "60.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1725672502303/4894916008627-1.jpg"}, {"name": "Miniso Essence Facial Mask(Collagen)", "cat": "Skincare", "price": "60.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/4897116384119-1.jpg"}, {"name": "Miniso Soul Rhythm Deodorant Body Spray 75ML(Vibe)", "cat": "Scented Products", "price": "100.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1750403723658/4894916011610-1.jpg"}, {"name": "Miniso Soul Rhythm Deodorant Body Spray 75ML(Spark)", "cat": "Scented Products", "price": "100.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1750403723530/4894916011603-1.jpg"}, {"name": "Miniso Cleansing Multi Use Wipes 30 Sheets(Floral)", "cat": "Personal Care &  Cleaning", "price": "100.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1725675560443/4894916009082-1.jpg"}, {"name": "Minigo 4.0 Organizers (4 pcs)(Pink)", "cat": "Life Department", "price": "400.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/good-pic/20231120165818/%E7%B2%89%E5%9B%9B%E4%BB%B6.jpg"}, {"name": "F-006 Square Sunglasses", "cat": "Apparel & Accessories", "price": "400.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symLink/2023082852681390-1-5368967520/2023082852681390-1.jpg"}, {"name": "Blooming Eau De Toilette(Blissful Bouquet)", "cat": "Scented Products", "price": "N/A", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/4894916013409-1-C4649A9378/4894916013409-1.jpg"}, {"name": "Garden Of Mirror Eau De Parfum(Stars In Eyes)", "cat": "Scented Products", "price": "600.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/segmentPic/4894916013386-1.jpg"}, {"name": "Magnificent Life Lady Perfume", "cat": "Scented Products", "price": "600.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2021122006924173-1.jpg"}, {"name": "Miniso Cinnamoroll Plush Toy 27CM", "cat": "Plush Toy", "price": "790.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1737422992812/4894916009839-1.jpg"}, {"name": "Miniso Skin Renewal Facial Mask(Rice)", "cat": "Skincare", "price": "90.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/3+steps+facial+mask17192854889470.png"}, {"name": "Miniso Dopamine Mood Body Mist(Cozy)", "cat": "Scented Products", "price": "260.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1726802823755/4894916013454-1.jpg"}, {"name": "We Bare Bears Collection 4.0 Fragrance-free Facial Tissues with Prints (9 Sheets*9 packs)", "cat": "Personal Care &  Cleaning", "price": "190.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6931798831023-1.jpg"}, {"name": "100ML Dazzle EDT Eau the Parfum(Aurora)", "cat": "Scented Products", "price": "560.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/4260585875738-1.jpg"}, {"name": "Jade Massage Set (Roller & Scraping Plate)", "cat": "Makeup Tools", "price": "370.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6936735338139-1.jpg"}, {"name": "7 Day Organizer", "cat": "Makeup Tools", "price": "N/A", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6942083517805-1-4B4E8694CE/6942083517805-1.jpg"}, {"name": "Deep Cleansing Nose Strips(Rose)", "cat": "Skincare", "price": "170.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/4897116386519-1-3F36F94E28/4897116386519-1.jpg"}, {"name": "Miniso Sparkle Collection Smoothing Feet Mask (Rose Milk)", "cat": "Skincare", "price": "100.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1761897860119/4894916016233-1.jpg"}, {"name": "MINI FAMILY Rice Repairing Gel Moisturizer 50G", "cat": "Skincare", "price": "200.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1737425034899/4894916015052-1.jpg"}, {"name": "Women's Colorful Bifold Short Wallet (Blue)", "cat": "Life Department", "price": "440.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6941856965089-1.jpg"}, {"name": "Penguin Plush Toy 28cm(Purple)", "cat": "Plush Toy", "price": "420.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/4260661757743-1.jpg"}, {"name": "Miniso Clear Acne Pimple Patches (36 Patches)", "cat": "Skincare", "price": "120.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1725674379342/4894916008931-1.jpg"}, {"name": "Plastic Cool Water Bottle with Handle and One-Touch Flip Top Lid (620mL)(Elephant)", "cat": "Life Department", "price": "290.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6931798899474-1.jpg"}, {"name": "Miniso Hand Sanitizer Gel 29ML (Mint)", "cat": "Personal Care &  Cleaning", "price": "100.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1750403725241/4894916015687-1.jpg"}, {"name": "Solid Color Series Dry Battery Handheld Fan(Barbie Pink)", "cat": "Electronic Devices", "price": "400.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/symLink/2024102500000076/1729818778791-1.png"}, {"name": "Fabulous Day Solid Gel Air Freshener 150G(Rose Charming,Pink)", "cat": "Scented Products", "price": "N/A", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1730251453463/4894916010941-1.jpg"}, {"name": "Gradient Color Plastic Bottle with Handle 1000mL(Black White)", "cat": "Life Department", "price": "650.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/good-pic/20240325173102/\u9ed1\u767d\u5927-1.png"}, {"name": "Deep Cleansing Nose Strips(Tea Tree)", "cat": "Skincare", "price": "170.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/4897116386502-1-3D6FB3EA27/4897116386502-1.jpg"}, {"name": "800 Count Wooden Stick Cotton Swabs[200 Count X4](White)", "cat": "Personal Care &  Cleaning", "price": "N/A", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/4512812303812-1.jpg"}, {"name": "Miniso Disney Stitch Plush Toy 28CM", "cat": "Plush Toy", "price": "930.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/Stitch.jpg17471299902275.Stitch.jpg"}, {"name": "Miniso Ode to Blossoms EDT 50ML(Bloom Sonata)", "cat": "Scented Products", "price": "460.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1757239686168/4894916011917-1.jpg"}, {"name": "Miniso Dopamine Mood Body Mist(Free)", "cat": "Scented Products", "price": "260.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1726802824034/4894916013461-1.jpg"}, {"name": "Miniso Skin Renewal Facial Mask(Pearl)", "cat": "Skincare", "price": "90.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1725674380160/4894916008740-1.jpg"}, {"name": "Miniso Nourishing Feet Mask(Goat Milk Collagen)", "cat": "Skincare", "price": "100.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1739845201719/4894916008818-1.jpg"}, {"name": "Barbie Collection Stationery Set PDQ", "cat": "Stationery & Gift", "price": "360.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symLink/2023051504986752-1-4473228725/2023051504986752-1.jpg"}, {"name": "Large Capacity Gradient Color Water Bottle with Handle, 2L(Black & White)", "cat": "Life Department", "price": "600.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2021102571485093-1.jpg"}, {"name": "Nebula Perfume (Pink)", "cat": "Scented Products", "price": "900.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/\u661f\u4e91\u7c89-1.jpg"}, {"name": "Wavy Stripes Cleaning Cloths (3 pcs)", "cat": "Life Department", "price": "160.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6936735314485-1.jpg"}, {"name": "Solid Color Series Dry Battery Handheld Fan(Yellow)", "cat": "Electronic Devices", "price": "350.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/symLink/2024102500000075/1729818778747-1.png"}, {"name": "Miniso Fresh Nail Polish Remover(Strawberry)", "cat": "Cosmetics", "price": "60.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1725672501988/4894916008610-1.jpg"}, {"name": "MINI FAMILY Mini Wipes 10 Wipes\u00d78 Packs(Juicy Lime)", "cat": "Personal Care &  Cleaning", "price": "290.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1749635581191/4894916010095-1.jpg"}, {"name": "MINI FAMILY Mini Wipes 10 Wipes\u00d78 Packs(Aloe Vera)", "cat": "Personal Care &  Cleaning", "price": "290.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1749635581112/4894916010088-1.jpg"}, {"name": "Screwdriver Set", "cat": "Life Department", "price": "190.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6941055125130-91.jpg"}, {"name": "Miniso Sparkle Collection Hand Sanitizer Gel 29ML (Rose)", "cat": "Personal Care &  Cleaning", "price": "100.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1750403725488/4894916015700-1.jpg"}, {"name": "Foldable Eyebrow Razors (3 pcs)", "cat": "Makeup Tools", "price": "170.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1744030913041/6942269581620-1.jpg"}, {"name": "Natural Beauty Facial Mask(Aloevera)", "cat": "Skincare", "price": "60.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/4260661756920-1.jpg"}, {"name": "Unscented Tissues (18 Packs)", "cat": "Personal Care &  Cleaning", "price": "210.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1748425897271/6977655590214-1.jpg"}, {"name": "Unscented Facial Tissues (3 Packs)", "cat": "Personal Care &  Cleaning", "price": "210.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1744010911028/6977655590221-1.jpg"}, {"name": "Cushion Hair Brush", "cat": "Makeup Tools", "price": "210.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2022062793216457-1.jpg"}, {"name": "Cushion Hair Brush", "cat": "Makeup Tools", "price": "210.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2022062825413706-1.jpg"}, {"name": "Miniso Kuromi Strawberry Collection Pendant 12CM", "cat": "Plush Toy", "price": "420.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1754451363449/4894916015885-1.jpg"}, {"name": "Miniso My Melody Strawberry Collection Pendant 12CM", "cat": "Plush Toy", "price": "420.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1754451362974/4894916015861-1.jpg"}, {"name": "Macaron Cream Box Set", "cat": "Makeup Tools", "price": "230.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2022072532589641-1.jpg"}, {"name": "Super Value Travel Bottles Set(6pcs)", "cat": "Makeup Tools", "price": "230.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1726817482914/6941447502396-1.jpg"}, {"name": "Cloud-Like Soft Toothbrushes (2 pcs)", "cat": "Personal Care &  Cleaning", "price": "200.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/symLink/2025033100000674/1743387401277-1.png"}, {"name": "Burden Of Dreams  Eau De Toilette(Mountain Night)", "cat": "Scented Products", "price": "200.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/4260661756791-1.jpg"}, {"name": "Plastic Water Bottle with Handle and Solid Color Sleeve (1000mL)(Purple)", "cat": "Life Department", "price": "400.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6941856985797-1-987DCB0CC9/6941856985797-1.jpg"}, {"name": "U-Shaped Neck Pillow", "cat": "Life Department", "price": "420.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6941055106269-1.jpg"}, {"name": "Disney Lilo & Stitch Collection Sitting Stitch Plush Toy", "cat": "Plush Toy", "price": "890.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6941856942202-1-31E332E90D/6941856942202-1.jpg"}, {"name": "We Bare Bears Collection 4.0 Ceramic Cup (350mL)", "cat": "Life Department", "price": "290.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6941856937260-1-AF8988D4D6/6941856937260-1.jpg"}, {"name": "Miniso Simple Comfort Men's Slippers(Grey,43-44)", "cat": "Apparel & Accessories", "price": "400.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1750403724398/4894916013324-1.jpg"}, {"name": "Facial Cleansing Brush", "cat": "Makeup Tools", "price": "310.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6936735324743-1.jpg"}, {"name": "Miniso Makeup Remover Wipes(Aloe Vera)", "cat": "Skincare", "price": "200.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1723793427878/4894916009310-1.jpg"}, {"name": "Coloradio Cleaning Toothbrushes (3 pcs)", "cat": "Personal Care &  Cleaning", "price": "120.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6931798889017-1.jpg"}, {"name": "MINI FAMILY Rice Cleansing Oil 140ML", "cat": "Skincare", "price": "300.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1737425034639/4894916015038-1.jpg"}, {"name": "We Bare Bears Collection 4.0 Ceramic Cup (370mL)", "cat": "Life Department", "price": "310.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6941856937277-1-792B8E9028/6941856937277-1.jpg"}, {"name": "Miniso Simple Comfort Men's Slippers(Black,41-42)", "cat": "Apparel & Accessories", "price": "400.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1750403724268/4894916013294-1.jpg"}, {"name": "Dumbbell Water Bottle 1500mL(Black)", "cat": "Life Department", "price": "310.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6941447551004-1.jpg"}, {"name": "Miniso Retro Series Wireless Headset Model: 118(Beige)", "cat": "Electronic Devices", "price": "800.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1739845201460/4894916013928-1.jpg"}, {"name": "Barbie Collection Yoga Mat", "cat": "Sporting Goods", "price": "800.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6942083557870-1-CC37DE02BC/6942083557870-1.jpg"}, {"name": "Travel Kit (5 pcs)", "cat": "Makeup Tools", "price": "230.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2022062768571029-1.jpg"}, {"name": "Portable Makeup Brush Set(8 Pack)", "cat": "Makeup Tools", "price": "460.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2022072175949021-1.jpg"}, {"name": "Miniso Large Capacity Color Block Water Bottle with Handle(1100ML)(Light Pink)", "cat": "Life Department", "price": "400.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1733215264878/4894916014307-1.jpg"}, {"name": "Miniso Skin Renewal Facial Mask(Vitamin C)", "cat": "Skincare", "price": "90.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/3+steps+facial+mask17192854889470.png"}, {"name": "Ice Cream Series Massage Hammer(Blue)", "cat": "Life Department", "price": "200.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6936735315574-1.jpg"}, {"name": "Miniso Simple Comfort Men's Slippers(Grey,41-42)", "cat": "Apparel & Accessories", "price": "400.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1750403724328/4894916013317-1.jpg"}, {"name": "Cinnamonroll Lunch Box 380mL(Blue)", "cat": "Kitchenware", "price": "190.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1761897860434/4894916017384-1.jpg"}, {"name": "Dual-Color Bath Ball(Blue)", "cat": "Personal Care &  Cleaning", "price": "90.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6936735316397-1.jpg"}, {"name": "Miniso My Melody Strawberry Collection Plush Toy 25CM", "cat": "Plush Toy", "price": "790.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1754451362838/4894916015830-1.jpg"}, {"name": "Miniso Kuromi Strawberry Collection Plush Toy 25CM", "cat": "Plush Toy", "price": "790.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1754451363297/4894916015854-1.jpg"}, {"name": "Miniso Fragrance Sachet(Ocean)", "cat": "Scented Products", "price": "60.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1725674379929/4894916008689-1.jpg"}, {"name": "Plastic Water Bottle with Handle and Solid Color Sleeve (1000mL)(Blue)", "cat": "Life Department", "price": "400.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6941856985803-1-98D74229DD/6941856985803-1.jpg"}, {"name": "Miniso Retro Series Wireless Headset Model: 118(Black)", "cat": "Electronic Devices", "price": "800.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1739845201382/4894916013911-1.jpg"}, {"name": "Miniso Lotso Strawberry Collection Plush Toy 35CM", "cat": "Plush Toy", "price": "1300.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1754451363762/4894916015946-1.jpg"}, {"name": "Color Blocking Shoulder Bag(Beige)", "cat": "Life Department", "price": "650.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6941856946514-1.jpg"}, {"name": "We Bare Bears Collection 4.0 Ceramic Cup (350mL)", "cat": "Life Department", "price": "290.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6941856937246-1-A79BFE5122/6941856937246-1.jpg"}, {"name": "Miniso Fragrance Sachet(Lavender)", "cat": "Scented Products", "price": "60.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1725674379853/4894916008672-1.jpg"}, {"name": "Hair Claw Clip(Pink)", "cat": "Apparel & Accessories", "price": "120.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2022062436214539-1.jpg"}, {"name": "Miniso Fragrance Sachet(Rose)", "cat": "Scented Products", "price": "60.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1725674380003/4894916008696-1.jpg"}, {"name": "Sports Arm Bag(Black)", "cat": "Life Department", "price": "230.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6941501533229-1.jpg"}, {"name": "Square Sunglasses", "cat": "Apparel & Accessories", "price": "400.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2021032336338947-1.jpg"}, {"name": "Miniso Large Capacity Color Block Water Bottle with Handle(1100ML)(Purple)", "cat": "Life Department", "price": "400.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1733215264973/4894916014321-1.jpg"}, {"name": "We Bare Bears Collection 4.0 Ceramic Cup with Lid (400mL)", "cat": "Life Department", "price": "310.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6941856937284-1-C0B2939029/6941856937284-1.jpg"}, {"name": "Miniso Large Capacity Color Block Water Bottle with Handle(1100ML)(Grey)", "cat": "Life Department", "price": "400.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1733215264936/4894916014314-1.jpg"}, {"name": "Miniso Simple Comfort Men's Slippers(Black,43-44)", "cat": "Apparel & Accessories", "price": "400.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1750403724300/4894916013300-1.jpg"}, {"name": "Miniso Disney Lilo & Stitch Collection Stitch 12-inch Plush Toy", "cat": "Plush Toy", "price": "1000.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symLink/2023053075199684-1-29E73AE270/2023053075199684-1.jpg"}, {"name": "Miniso Sparkle Collection Shimmer Body Mist(Galaxy)", "cat": "Scented Products", "price": "350.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1757239686950/4894916018831-1.jpg"}, {"name": "Plastic Water Bottle with Handle and Solid Color Sleeve (1000mL)(Pink)", "cat": "Life Department", "price": "400.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6941856985810-1-98DD2504C9/6941856985810-1.jpg"}, {"name": "Miniso Fragrance Sachet(Jasmine)", "cat": "Scented Products", "price": "60.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1725674379753/4894916008665-1.jpg"}, {"name": "Miniso Sparkle Collection Shimmer Body Mist(Cosmos)", "cat": "Scented Products", "price": "350.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1757239687023/4894916018848-1.jpg"}, {"name": "Plastic Water Bottle with Handle and Solid Color Sleeve (1000mL)(Black)", "cat": "Life Department", "price": "400.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symlink/6941856985780-1-987770ECCC/6941856985780-1.jpg"}, {"name": "Classic Gradient Sunglasses", "cat": "Apparel & Accessories", "price": "400.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2021032336214352-1.jpg"}, {"name": "Square Sunglasses", "cat": "Apparel & Accessories", "price": "400.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2021032336306509-1.jpg"}, {"name": "Hair Claw Clip(Black)", "cat": "Apparel & Accessories", "price": "120.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2022062435728373-1.jpg"}, {"name": "Hair Claw Clip(Brown)", "cat": "Apparel & Accessories", "price": "120.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2022062435759952-1.jpg"}, {"name": "Solid Color Series Dry Battery Handheld Fan(Blue)", "cat": "Electronic Devices", "price": "350.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/symLink/2024102500000074/1729818778693-1.png"}, {"name": "Miniso Solid Color Series Memory Foam U-shaped Pillow(Grey)", "cat": "Life Department", "price": "450.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1730699416245/6942083508186-1.jpg"}, {"name": "G-002 Sunglasses", "cat": "Apparel & Accessories", "price": "400.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symLink/2023030248521097-1-8087361312/2023030248521097-1.jpg"}, {"name": "G-029 Sunglasses", "cat": "Apparel & Accessories", "price": "400.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symLink/2023030248521097-1-8087361312/2023030248521097-1.jpg"}, {"name": "Square Sunglasses", "cat": "Apparel & Accessories", "price": "400.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2021032336245532-1.jpg"}, {"name": "G-003 Sunglasses", "cat": "Apparel & Accessories", "price": "400.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symLink/2023030248521097-1-8087361312/2023030248521097-1.jpg"}, {"name": "G-038 Sunglasses", "cat": "Apparel & Accessories", "price": "400.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symLink/2023030248521097-1-8087361312/2023030248521097-1.jpg"}, {"name": "G-041 Sunglasses", "cat": "Apparel & Accessories", "price": "400.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symLink/2023072570265984-1-4379416264/2023072570265984-1.jpg"}, {"name": "Miniso Large Capacity Color Block Water Bottle with Handle(1100ML)(Black)", "cat": "Life Department", "price": "400.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/segmentPic/1733215264817/4894916014291-1.jpg"}, {"name": "Classic Pilot Sunglasses", "cat": "Apparel & Accessories", "price": "400.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2021032336423528-1.jpg"}, {"name": "Solid Color Series Dry Battery Handheld Fan(White)", "cat": "Electronic Devices", "price": "350.0", "img": "https://miniso-plm.oss-cn-shenzhen.aliyuncs.com/symLink/2024102500000073/1729818778643-1.png"}, {"name": "F-020 Sunglasses", "cat": "Apparel & Accessories", "price": "400.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/symLink/2023082852681390-1-5368967520/2023082852681390-1.jpg"}, {"name": "Sports Arm Bag(Grey)", "cat": "Life Department", "price": "230.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/6941501533236-1.jpg"}, {"name": "Hair Claw Clip(Transparent)", "cat": "Apparel & Accessories", "price": "120.0", "img": "https://miniso-pic.oss-cn-shenzhen.aliyuncs.com/2022062435788506-1.jpg"}];
+
+    // --- 2. OBSERVER (For Scroll Animation) ---
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+
+    // --- 3. INIT ---
+    window.onload = () => {
+        renderFilters();
+        filter('All', null);
+    };
+
+    function renderFilters() {
+        const cats = new Set(products.map(p => p.cat));
+        const container = document.getElementById('filters');
+        
+        Array.from(cats).sort().forEach(cat => {
+            const btn = document.createElement('button');
+            btn.className = 'tab-btn';
+            btn.innerText = cat;
+            btn.onclick = (e) => filter(cat, e);
+            container.appendChild(btn);
+        });
+    }
+
+    function filter(cat, event) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        if(event) event.target.classList.add('active');
+        else document.querySelector('.tab-btn').classList.add('active');
+
+        const filtered = cat === 'All' ? products : products.filter(p => p.cat === cat);
+        renderProducts(filtered);
+    }
+
+    function renderProducts(list) {
+        const grid = document.getElementById('grid');
+        grid.innerHTML = '';
+        
+        if(list.length === 0) {
+            grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px; color:#999;">No products found in this category.</div>`;
+            return;
+        }
+        
+        list.forEach((p, i) => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            // Stagger animation
+            card.style.transitionDelay = `${Math.min(i * 50, 500)}ms`; 
+            
+            // Format Price
+            let displayPrice = p.price;
+            if(displayPrice && displayPrice !== 'N/A' && displayPrice !== 'nan') {
+                displayPrice = '₹' + parseFloat(displayPrice).toLocaleString('en-IN');
+            } else {
+                displayPrice = '<span style="font-size:0.8rem; color:#999">In-Store</span>';
+            }
+            
+            card.innerHTML = `
+                <div class="p-img-box">
+                    <img src="${p.img}" loading="lazy" alt="${p.name}" onerror="this.src='https://placehold.co/400?text=Miniso'">
+                </div>
+                <div class="p-details">
+                    <div class="p-cat">${p.cat}</div>
+                    <div class="p-name" title="${p.name}">${p.name}</div>
+                    <div class="p-price">
+                        ${displayPrice}
+                        <div class="p-action"><i class="fas fa-plus"></i></div>
+                    </div>
+                </div>
+            `;
+            
+            grid.appendChild(card);
+            observer.observe(card);
+        });
+    }
+</script>
+
+</body>
+</html>
